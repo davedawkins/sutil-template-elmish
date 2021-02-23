@@ -7,7 +7,7 @@ open Sutil.Attr
 type Model = { Counter : int }
 
 // Model helpers
-let counter m = m.Counter
+let getCounter m = m.Counter
 
 type Message =
     | Increment
@@ -40,9 +40,8 @@ let view() =
 
         // Think of this line as
         // text $"Counter = {model.counter}"
-        //
-        // The .> operator is an alias for Store.map, which projects the Observable
-        Bind.fragment (model .> counter) <| fun n -> text $"Counter = {n}"
+        Bind.fragment (model |> Store.map getCounter) <| fun n ->
+            text $"Counter = {n}"
 
         Html.div [
             Html.button [
@@ -61,4 +60,4 @@ let view() =
         ]]
 
 // Start the app
-DOM.mountElement "sutil-app" (view())
+view() |> mountElement "sutil-app"
