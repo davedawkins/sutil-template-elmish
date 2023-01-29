@@ -1,8 +1,7 @@
 module App
 
 open Sutil
-open Sutil.DOM
-open Sutil.Attr
+open Sutil.CoreElements
 
 type Model = { Counter : int }
 
