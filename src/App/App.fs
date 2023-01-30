@@ -1,8 +1,7 @@
 module App
 
 open Sutil
-open Sutil.DOM
-open Sutil.Attr
+open Sutil.CoreElements
 
 type Model = { Counter : int }
 
@@ -33,28 +32,28 @@ let view() =
         disposeOnUnmount [ model ]
 
         // See Sutil.Styling for more advanced styling options
-        style [
+        Attr.style [
             Css.fontFamily "Arial, Helvetica, sans-serif"
             Css.margin 20
         ]
 
         // Think of this line as
         // text $"Counter = {model.counter}"
-        Bind.fragment (model |> Store.map getCounter) <| fun n ->
-            text $"Counter = {n}"
+        Bind.el (model |> Store.map getCounter, fun n ->
+            text $"Counter = {n}" )
 
         Html.div [
             Html.button [
-                class' "button" // Bulma styling, included in index.html
+                Attr.className "button" // Bulma styling, included in index.html
 
                 // Dispatching is as for normal ELmish. Sutil event handlers take an extra options array though
-                onClick (fun _ -> dispatch Decrement) []
+                Ev.onClick (fun _ -> dispatch Decrement)
                 text "-"
             ]
 
             Html.button [
-                class' "button"
-                onClick (fun _ -> dispatch Increment) []
+                Attr.className "button"
+                Ev.onClick (fun _ -> dispatch Increment)
                 text "+"
             ]
         ]]
